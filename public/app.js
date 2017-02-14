@@ -4,34 +4,29 @@
   // Conexión
   //
 
-  var socket = io();
+  // Crear un nuevo socket.
+  const socket = io();
 
   //
   // Interfaz
   //
 
-  var $username = $('#username');
-  var $value = $('#value');
-  var $send = $('#send');
-  var $list = $('#list');
-
+  // Se ha recibido un mensaje de otro usuario.
   function addMsg (data) {
-    $list.append('<p><b>'+ data.username +'</b>: ' + data.value + '</p>');
+    const { username, value } = data;
+    $('#list').append(
+      `<p><b>${username}</b>:${value}</p>`
+    );
   }
 
+  // Tratar de enviar un nuevo mensaje.
   function sendMsg () {
-    var data = {
-      value: $value.val(),
-      username: $username.val()
+    const data = {
+      value: $('#value').val(),
+      username: $('#username').val()
     };
 
-    if (!data.username) {
-      return alert('Escribe un nombre de usuario.');
-    }
-
-    if (!data.value) {
-      return;
-    }
+    if (!data.value) return;
 
     // Enviar mensaje a otros usuarios
     socket.emit('new:message', data);
@@ -39,25 +34,25 @@
     // Agregar el propio mensaje a la lista
     addMsg(data);
 
-    $value.val('');
-    $value.focus();
+    $('#value').val('').focus();
   }
 
   //
   // Eventos
   //
 
+  // Al recibir un mensaje de otro usuario desde el servidor.
   socket.on('new:message', function (data) {
     addMsg(data);
   });
 
-  $send.on('click', function () {
+  // Al hacer click en el botón de enviar.
+  $('#send').on('click', function () {
     sendMsg();
   });
 
-  $value.on('keypress', function (event) {
-
-    // Al presionar la tecla ENTER.
+  // Al presionar la tecla ENTER.
+  $('#value').on('keypress', function (event) {
     if (event.which === 13) {
       sendMsg();
     }
