@@ -27,15 +27,16 @@ io.on('connection', function (socket) {
     console.log('Usuario desconectado.');
   });
 
-  // Al recibir un mensaje de un usuario.
+  // Al recibir el evento 'new:message' del socket, el cual representa
+  // un nuevo mensaje del usuario.
   socket.on('new:message', function (data) {
 
     const { username, value } = data;
-    console.log(
-      `Nuevo mensaje: Usuario="${username}", Contenido="${value}".`
-    );
 
-    // Reenviarlo a todos los demás.
+    // Reenviamos el mensaje a todos los demás conectados emitiendoles
+    // el evento 'new:message' con los datos.
     socket.broadcast.emit('new:message', data);
+
+    console.log(`Nuevo mensaje: Usuario="${username}", Contenido="${value}".`);
   });
 });

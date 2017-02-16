@@ -15,7 +15,7 @@
   function addMsg (data) {
     const { username, value } = data;
     $('#list').append(
-      `<p><b>${username}</b>:${value}</p>`
+      `<p><b>${username}</b>: ${value}</p>`
     );
   }
 
