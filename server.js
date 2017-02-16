@@ -6,11 +6,11 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-app.use(express.static(process.cwd() + '/public'));
+app.use(express.static(__dirname));
 
 server.listen(4000, function (err) {
   if (err) throw err;
-  console.log('Server running at http://127.0.0.1:4000');
+  console.log('Servidor escuchando en http://localhost:4000');
 });
 
 //
